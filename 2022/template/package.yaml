@@ -1,0 +1,31 @@
+name:                s{day}
+version:             2022
+github:              "jl-wynen/advent-of-code"
+license:             MIT
+author:              "Jan-Lukas Wynen"
+maintainer:          "j-l.wynen@hotmail.de"
+copyright:           "2022 Jan-Lukas Wynen"
+description:         Solution for advent of code 2022 day {day}
+
+dependencies:
+- base >= 4.7 && < 5
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wmissing-export-lists
+- -Wmissing-home-modules
+- -Wpartial-fields
+- -Wredundant-constraints
+
+executables:
+  s{day}:
+    main:                Main.hs
+    source-dirs:         .
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
