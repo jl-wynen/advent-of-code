@@ -4,23 +4,22 @@
 
 stack: https://docs.haskellstack.org/en/stable/
 
-## Build
-
-Build all:
-
-```shell
-stack build
-```
-
 ## Run
 
-For day 1:
+All in one:
 
 ```shell
+run s01
+```
+
+Manually:
+
+```shell
+stack build [s01]
 stack exec s01
 ```
 
 ## Template
 
-Use `generate.py` to generate a directory for each day based on the files in `template`.
-Make sure to update `packages` in `stack.yaml`.
+Use `generate.py` to generate a directory for a day given as command line argument.
+This uses files in the `templates` folder.
