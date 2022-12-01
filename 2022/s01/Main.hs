@@ -1,22 +1,14 @@
 import Paths_s01
-import Data.List (sortOn)
+import Data.List (sortOn, groupBy)
 
 readInput :: IO (String)
 readInput = do
     inputFile <- getDataFileName "input"
     readFile inputFile
 
-
-dropFirst :: [String] -> [String]
-dropFirst [] = []
-dropFirst (_:t) = t
-
-
+-- groupBy produces [["1", "2"], ["", "3", "4"], ["", "5"], ...]
 groupElves :: [String] -> [[String]]
-groupElves [] = []
-groupElves l =
-    let (a, b) = break (=="") l
-    in a : (groupElves $ dropFirst b)
+groupElves = filter (/= [""]) . groupBy (\a b -> a /= "" && b /= "")
 
 toInt :: String -> Int
 toInt s = read s
