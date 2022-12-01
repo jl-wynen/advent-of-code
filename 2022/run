@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+stack build $1 && stack exec $1
