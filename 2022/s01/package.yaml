@@ -7,6 +7,8 @@ maintainer:          "j-l.wynen@hotmail.de"
 copyright:           "2022 Jan-Lukas Wynen"
 description:         Solution for advent of code 2022 day 01
 
+data-files: input
+
 dependencies:
 - base >= 4.7 && < 5
 
