@@ -1,9 +1,9 @@
 """Generate start program for each day"""
 
 from pathlib import Path
+import sys
 
 
-DAYS = range(1, 25)
 BASE_DIR = Path(__file__).resolve().parent
 
 
@@ -16,17 +16,11 @@ def process_file(infile, target_dir, day):
 
 
 def main():
-    generated = []
-    for day in DAYS:
-        target = BASE_DIR / f's{day:02d}'
-        if target.exists():
-            continue
-        generated.append(day)
-        target.mkdir()
-        for infile in (BASE_DIR / 'template').iterdir():
-            process_file(infile, target, day)
-    
-    print('\n'.join(f'- s{day:02d}' for day in generated))
+    day = int(sys.argv[1])
+    target = BASE_DIR / f's{day:02d}'
+    target.mkdir()
+    for infile in (BASE_DIR / 'template').iterdir():
+        process_file(infile, target, day)
 
 
 if __name__ == '__main__':
