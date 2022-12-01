@@ -16,13 +16,17 @@ def process_file(infile, target_dir, day):
 
 
 def main():
+    generated = []
     for day in DAYS:
         target = BASE_DIR / f's{day:02d}'
+        if target.exists():
+            continue
+        generated.append(day)
         target.mkdir()
         for infile in (BASE_DIR / 'template').iterdir():
             process_file(infile, target, day)
     
-    print('\n'.join(f'- s{day:02d}' for day in DAYS))
+    print('\n'.join(f'- s{day:02d}' for day in generated))
 
 
 if __name__ == '__main__':
