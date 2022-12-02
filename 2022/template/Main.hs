@@ -8,4 +8,6 @@ readInput = do
 
 
 main :: IO ()
-main = putStrLn "Day {day}"
+main = do
+    input <- parseInput
+    print input
