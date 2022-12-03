@@ -1,13 +1,12 @@
 import Paths_s{day}
 
 
-readInput :: IO (String)
-readInput = do
-    inputFile <- getDataFileName "input"
-    readFile inputFile
+readInput :: (String -> a) -> IO a
+readInput f = do
+    getDataFileName "input" >>= readFile >>= return . f
 
 
 main :: IO ()
 main = do
-    input <- parseInput
+    input <- readInput id
     print input
