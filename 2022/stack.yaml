@@ -6,5 +6,6 @@ packages:
 - s05
 - s06
 - s07
+- s08
 resolver:
   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/1.yaml
