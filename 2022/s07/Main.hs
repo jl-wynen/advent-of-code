@@ -1,4 +1,4 @@
-import           Data.List       (intercalate, sort)
+import           Data.List       (intercalate)
 import qualified Data.Map.Strict as Map
 import           Paths_s07
 
