@@ -10,5 +10,6 @@ packages:
 - s09
 - s10
 - s11
+- s12
 resolver:
   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/1.yaml
