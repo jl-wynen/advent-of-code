@@ -20,7 +20,7 @@ readInput parser = do
         Right x -> x
         Left _  -> error "failed to parse input"
 
-data Packet = List [Packet] | Item Int deriving(Show)
+data Packet = List [Packet] | Item Int deriving(Eq, Show)
 
 type Parser = Parsec Void String
 
