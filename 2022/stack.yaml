@@ -12,5 +12,6 @@ packages:
 - s11
 - s12
 - s13
+- s14
 resolver:
   url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/1.yaml
