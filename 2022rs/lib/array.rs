@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 /** Multi dimensional arrays */
 use std::ops::{Index, IndexMut};
 
@@ -15,6 +16,31 @@ impl<T: Clone> Array2D<T> {
             ncol_: ncol,
             elems_: vec![init; nrow * ncol],
         }
+    }
+
+    pub fn roll_rows(&mut self, by: isize, init: T) {
+        let mut new_elems = vec![init; self.nrow_ * self.ncol_];
+
+        match by.cmp(&0) {
+            Ordering::Greater => {
+                let by = by as usize;
+                for row in 0..(self.nrow_ - by) {
+                    for col in 0..self.ncol_ {
+                        new_elems[(row + by) * self.ncol_ + col] = self[(row, col)].clone();
+                    }
+                }
+            }
+            Ordering::Less => {
+                let by = (-by) as usize;
+                for row in by..self.nrow_ {
+                    for col in 0..self.ncol_ {
+                        new_elems[(row - by) * self.ncol_ + col] = self[(row, col)].clone();
+                    }
+                }
+            }
+            Ordering::Equal => {}
+        }
+        self.elems_ = new_elems
     }
 }
 

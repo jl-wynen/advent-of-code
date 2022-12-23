@@ -12,26 +12,33 @@ fn load(input: &str) -> Vec<i32> {
 
 #[derive(Clone, Debug)]
 struct Rock {
-    pub elems: Vec<(i32, i32)>, // order: (x, y)
+    // order: (x, y); highest cell first
+    pub elems: [(i32, i32); 5],
+    pub n: usize,
 }
 
 impl Rock {
     pub fn new(number: i32) -> Self {
         match number {
             0 => Self {
-                elems: vec![(0, 0), (1, 0), (2, 0), (3, 0)],
+                elems: [(0, 0), (1, 0), (2, 0), (3, 0), (0, 0)],
+                n: 4,
             },
             1 => Self {
-                elems: vec![(1, 0), (0, 1), (1, 1), (2, 1), (1, 2)],
+                elems: [(1, 2), (1, 0), (0, 1), (1, 1), (2, 1)],
+                n: 5,
             },
             2 => Self {
-                elems: vec![(0, 0), (1, 0), (2, 0), (2, 1), (2, 2)],
+                elems: [(2, 2), (0, 0), (1, 0), (2, 0), (2, 1)],
+                n: 5,
             },
             3 => Self {
-                elems: vec![(0, 0), (0, 1), (0, 2), (0, 3)],
+                elems: [(0, 3), (0, 0), (0, 1), (0, 2), (0, 0)],
+                n: 4,
             },
             4 => Self {
-                elems: vec![(0, 0), (1, 0), (0, 1), (1, 1)],
+                elems: [(1, 1), (0, 0), (1, 0), (0, 1), (0, 0)],
+                n: 4,
             },
             _ => panic!("Bad rock number"),
         }
@@ -42,17 +49,19 @@ impl Rock {
     }
 
     pub fn move_by(&self, x: i32, y: i32) -> Self {
-        Rock {
-            elems: self
-                .elems
-                .iter()
-                .map(|(sx, sy)| (sx + x, sy + y))
-                .collect::<Vec<_>>(),
+        let mut res = Rock {
+            elems: self.elems,
+            n: self.n,
+        };
+        for i in 0..5 {
+            res.elems[i].0 += x;
+            res.elems[i].1 += y;
         }
+        res
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Copy, Clone, Debug)]
 enum Cell {
     R,
     E,
@@ -75,6 +84,7 @@ impl Render for RockStack {
 
 struct RockStack {
     pub height: usize,
+    pub height_offset: usize,
     pub stack: Array2D<Cell>,
 }
 
@@ -82,12 +92,29 @@ impl RockStack {
     pub fn new(n_rocks: usize) -> Self {
         Self {
             height: 0,
-            stack: Array2D::<Cell>::new(n_rocks * 3 + 3, 7, Cell::E),
+            height_offset: 0,
+            stack: Array2D::<Cell>::new(
+                std::cmp::min(std::cmp::max(n_rocks * 3 + 3, 20), 1000000),
+                7,
+                Cell::E,
+            ),
         }
     }
 
     pub fn spawn(&self, rock_no: i32) -> Rock {
         Rock::new_at(rock_no, 2, self.height as i32 + 3)
+    }
+
+    pub fn total_height(&self) -> usize {
+        self.height + self.height_offset
+    }
+
+    fn roll(&mut self) {
+        let amount = self.stack.nrow() as isize / 2;
+        self.stack.roll_rows(-amount, Cell::E);
+        // This assumes that the stack reached past nrow/2
+        self.height -= amount as usize;
+        self.height_offset += amount as usize;
     }
 
     pub fn place(&mut self, rock: &Rock) {
@@ -97,8 +124,12 @@ impl RockStack {
             }
             self.stack[(y as usize, x as usize)] = Cell::R;
         }
-        let new_height = *rock.elems.iter().map(|(_, y)| y).max().unwrap() + 1;
-        self.height = std::cmp::max(self.height, new_height as usize)
+        let new_height = rock.elems[0].1 + 1;
+        self.height = std::cmp::max(self.height, new_height as usize);
+
+        if self.height + 5 >= self.stack.nrow() {
+            self.roll();
+        }
     }
 
     pub fn out_of_bounds(&self, x: i32, y: i32) -> bool {
@@ -162,7 +193,7 @@ fn drop_rocks(n: usize, jet: &[i32]) -> RockStack {
 fn main() {
     let jet = load(INPUT);
     let filled = drop_rocks(2022, &jet);
-    println!("Part1: {}", filled.height);
+    println!("Part1: {}", filled.total_height());
 }
 
 #[cfg(test)]
@@ -175,13 +206,20 @@ mod test {
     fn test1() {
         let jet = load(TEST_INPUT);
         let filled = drop_rocks(2022, &jet);
-        assert_eq!(filled.height, 3068);
+        assert_eq!(filled.total_height(), 3068);
+    }
+
+    #[test]
+    fn real1() {
+        let jet = load(INPUT);
+        let filled = drop_rocks(2022, &jet);
+        assert_eq!(filled.total_height(), 3186);
     }
 
     #[test]
     fn test2() {
         let jet = load(TEST_INPUT);
         let filled = drop_rocks(1000000000000, &jet);
-        assert_eq!(filled.height, 1514285714288);
+        assert_eq!(filled.total_height(), 1514285714288);
     }
 }
