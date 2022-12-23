@@ -1,4 +1,4 @@
-import           Data.List (intersect)
+import           Data.List (intersect, intercalate)
 import           FileInput (readInput)
 
 -- (x, y)
@@ -33,7 +33,7 @@ belowBottom :: Rock -> Bool
 belowBottom rock = any ((<0) . snd) rock
 
 spawnPos :: RockStack -> Pos
-spawnPos (RockStack h _ _) = (2, h + 4)
+spawnPos (RockStack h _ _) = (2, h + 3)
 
 dropRock :: Int -> Jet -> RockStack -> [Rock] -> Rock -> RockStack
 dropRock width jet stack rocks rock
@@ -54,7 +54,7 @@ shiftRock width (d:jet) stack rocks rock =
 
 newHeight :: Int -> Rock -> Int
 newHeight oldHeight rock =
-    max oldHeight $ maximum $ map snd rock
+    max oldHeight $ (1 + (maximum $ map snd rock))
 
 addToStack :: Rock -> RockStack -> RockStack
 addToStack rock (RockStack h n stack) =
@@ -65,21 +65,26 @@ dropNextRock rock _ _ stack [] = addToStack rock stack
 dropNextRock rock width jet stack (next:rocks) =
     let newStack = addToStack rock stack
         newRock = moveTo (spawnPos newStack) next
-    in dropRock width jet newStack rocks newRock
+    in shiftRock width jet newStack rocks newRock
 
 dropRocks :: Int -> Jet -> [Rock] -> RockStack
 dropRocks width jet rocks =
     let initialStack = (RockStack 0 0 [])
         firstRock = moveTo (spawnPos initialStack) $ head rocks
-    in dropRock width jet initialStack (tail rocks) firstRock
+    in shiftRock width jet initialStack (tail rocks) firstRock
+
+draw :: RockStack -> String
+draw (RockStack h _ stack) =
+    intercalate "\n" [[if any (\rock -> (x,y) `elem` rock) stack then '#' else '.' 
+                      | x <- [0..6]]
+                     | y <- [(h+3),(h+2)..(0)]]
 
 main :: IO ()
 main = do
     input <- readInput
     let jet = cycle $ map (\c -> if c == '<' then -1 else 1) input
         width = 7
-        rocks = take 3 $ cycle rockShapes
-        (RockStack h n stack) = dropRocks width jet rocks
-    print h
-    print n
-    print stack
+        rocks = take 2022 $ cycle rockShapes
+        s@(RockStack h _ _) = dropRocks width jet rocks
+    -- putStrLn $ draw s
+    putStrLn $ "Part 1: height of tower = " ++ show h
