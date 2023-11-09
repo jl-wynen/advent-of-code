@@ -1,0 +1,13 @@
+[package]
+name = "aoc2023"
+version = "1.0.0"
+authors = ["Jan-Lukas Wynen"]
+description = "Advent of code solution for 2023 - library."
+license = "MIT"
+
+edition = "2021"
+rust-version = "1.73"
+
+[lib]
+name = "aoc2023"
+path = "src/lib.rs"

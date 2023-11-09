@@ -1,0 +1,19 @@
+[package]
+name = "aoc2023-s01"
+version = "1.0.0"
+authors = ["Jan-Lukas Wynen"]
+description = "Advent of code solution for 2023 task 01."
+license = "MIT"
+
+edition = "2021"
+rust-version = "1.73"
+
+include = ["inputs/*", "outputs/*"]
+
+[dependencies]
+aoc2023 = { path = "../aoc2023" }
+aoc2023-macro = { path = "../aoc2023-macro" }
+
+[[bin]]
+name = "s01"
+path = "src/s01.rs"
