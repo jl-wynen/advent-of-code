@@ -1,7 +1,9 @@
 use aoc2023::fileio;
-use aoc2023_macro::show_streams;
+use aoc2023_macro::*;
 
-#[show_streams]
-fn invoke1() {}
+#[task1]
+fn solution1(input: String) -> String {
+    format!("solution for {input}")
+}
 
-fn main() {}
+make_main!();

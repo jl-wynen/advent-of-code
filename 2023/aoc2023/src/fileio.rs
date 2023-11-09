@@ -11,11 +11,11 @@ fn source_dir(exe_file: &str) -> PathBuf {
 }
 
 fn input_data_dir(exe_file: &str) -> PathBuf {
-    source_dir(exe_file).join("inputs")
+    source_dir(exe_file).join("../inputs")
 }
 
 fn output_data_dir(exe_file: &str) -> PathBuf {
-    source_dir(exe_file).join("outputs")
+    source_dir(exe_file).join("../outputs")
 }
 
 pub fn read_test_input(exe_file: &str) -> String {
