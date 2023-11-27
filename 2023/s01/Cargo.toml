@@ -12,7 +12,6 @@ include = ["inputs/*", "outputs/*"]
 
 [dependencies]
 aoc2023 = { path = "../aoc2023" }
-aoc2023-macro = { path = "../aoc2023-macro" }
 
 [[bin]]
 name = "s01"

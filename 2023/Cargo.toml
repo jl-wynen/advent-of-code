@@ -15,7 +15,7 @@
 #[dependencies]
 
 [workspace]
-members = ["aoc2023", "aoc2023-macro", "s01"]
+members = ["aoc2023", "s01"]
 resolver = "2"
 
 #[[lib]]
