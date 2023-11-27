@@ -1,8 +1,17 @@
 use std::fs;
 use std::path::PathBuf;
 
+fn normalize_exe_path(exe_file: &str) -> PathBuf {
+    let exe_path = PathBuf::from(exe_file);
+    if !exe_path.exists() {
+        PathBuf::from_iter(exe_path.components().skip(1))
+    } else {
+        exe_path
+    }
+}
+
 fn source_dir(exe_file: &str) -> PathBuf {
-    PathBuf::from(exe_file)
+    normalize_exe_path(exe_file)
         .canonicalize()
         .unwrap()
         .parent()
@@ -25,6 +34,8 @@ pub fn read_test_input(exe_file: &str) -> String {
 pub fn read_test_output(exe_file: &str, part_no: u8) -> String {
     fs::read_to_string(output_data_dir(exe_file).join(format!("expected-output-{part_no}")))
         .unwrap()
+        .trim()
+        .into()
 }
 
 pub fn read_input(exe_file: &str) -> String {

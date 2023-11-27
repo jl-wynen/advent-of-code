@@ -1,14 +1,11 @@
 use aoc2023::fileio;
-use aoc2023_macro::*;
 
-#[task1]
-fn solution1(input: String) -> String {
-    format!("solution for {input}")
+fn task1(input: String) -> String {
+    "EXPECTED OUTPUT 1".into()
 }
 
-#[task2]
-fn solution2(input: String) -> String {
-    format!("solution for {input}")
+fn task2(input: String) -> String {
+    "EXPECTED OUTPUT 2".into()
 }
 
-make_main!();
+aoc2023::make_main!(task1);
