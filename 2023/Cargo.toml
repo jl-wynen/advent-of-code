@@ -1,31 +1,19 @@
-#[package]
-#name = "aoc2023"
-#version = "1.0.0"
-#authors = ["Jan-Lukas Wynen"]
-#description = "Advent of code solution for 2023."
-#license = "MIT"
-#
-#edition = "2021"
-#rust-version = "1.73"
-#
-#include = ["src/input"]
+[package]
+name = "aoc2023"
+version = "1.0.0"
+authors = ["Jan-Lukas Wynen"]
+description = "Advent of code solution for 2023."
+license = "MIT"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+edition = "2021"
+rust-version = "1.73"
 
-#[dependencies]
+[dependencies]
 
-[workspace]
-members = ["aoc2023", "s01"]
-resolver = "2"
+[lib]
+name = "aoc2023"
+path = "lib/lib.rs"
 
-#[[lib]]
-#name = "aoc2023"
-#path = "lib/aoc2023.rs"
-#
-#[[lib]]
-#name = "aoc2023-macro"
-#path = "aoc2023-macro/aoc2023-macro.rs"
-#
-#[[bin]]
-#name = "01"
-#path = "src01/main.rs"
+[[bin]]
+name = "s01"
+path = "s01/src/s01.rs"
