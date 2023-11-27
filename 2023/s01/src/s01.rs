@@ -8,4 +8,4 @@ fn task2(input: String) -> String {
     "EXPECTED OUTPUT 2".into()
 }
 
-aoc2023::make_main!(task1);
+aoc2023::make_main!(task1, task2);
