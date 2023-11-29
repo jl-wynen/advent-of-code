@@ -6,8 +6,10 @@ macro_rules! make_test_cases {
                 #[test]
                 fn [<test_ $func_name>]() {
                     use aoc2023::fileio;
+                    use aoc2023::parse;
+
                     let input = fileio::read_test_input(file!());
-                    let parsed = $parser(input);
+                    let parsed = parse::apply($parser, input.as_str());
                     let expected_output = fileio::read_test_output(file!(), $idx);
                     let actual_output = $func_name(parsed).trim().to_string();
                     assert_eq!(actual_output, expected_output);
@@ -36,8 +38,10 @@ macro_rules! make_main {
     ($task1:ident, parser: $parser:expr) => {
         fn main() {
             use aoc2023::fileio;
+            use aoc2023::parse;
+
             let input = fileio::read_input(file!());
-            let parsed = $parser(input);
+            let parsed = parse::apply($parser, input.as_str());
             let res = $task1(parsed);
             println!("!! Task 1 result: <|{res}|>");
         }
@@ -47,8 +51,10 @@ macro_rules! make_main {
     ($task1:ident, $task2:ident, parser: $parser:expr) => {
         fn main() {
             use aoc2023::fileio;
+            use aoc2023::parse;
+
             let input = fileio::read_input(file!());
-            let parsed = $parser(input);
+            let parsed = parse::apply($parser, input.as_str());
             let res1 = $task1(parsed.clone());
             println!("!! Task 1 result: <|{res1}|>");
             let res2 = $task2(parsed);

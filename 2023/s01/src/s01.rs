@@ -1,15 +1,11 @@
-fn task1(input: usize) -> String {
-    println!("task1: {input}");
-    "EXPECTED OUTPUT 1".into()
+use aoc2023::parse::decimals;
+
+fn task1(input: Vec<i64>) -> String {
+    input.iter().sum::<i64>().to_string()
 }
 
-fn task2(input: usize) -> String {
-    println!("task1: {input}");
-    "EXPECTED OUTPUT 2".into()
+fn task2(input: Vec<i64>) -> String {
+    input.iter().product::<i64>().to_string()
 }
 
-fn parse(input: String) -> usize {
-    input.len()
-}
-
-aoc2023::make_main!(task1, task2, parser: parse);
+aoc2023::make_main!(task1, task2, parser: decimals);
