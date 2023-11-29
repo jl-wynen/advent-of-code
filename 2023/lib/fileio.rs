@@ -32,7 +32,7 @@ pub fn read_test_input(exe_file: &str) -> String {
 }
 
 pub fn read_test_output(exe_file: &str, part_no: u8) -> String {
-    fs::read_to_string(output_data_dir(exe_file).join(format!("expected-output-{part_no}")))
+    fs::read_to_string(output_data_dir(exe_file).join(format!("expected-test-output-{part_no}")))
         .unwrap()
         .trim()
         .into()
