@@ -51,7 +51,7 @@ macro_rules! make_main {
             let input = fileio::read_input(file!());
             let parsed = $parser(input.as_str());
             let res = $task1(parsed);
-            println!("!! Task 1 result: <|{res}|>");
+            println!("!! Task 1 result: >{res}<");
         }
 
         aoc2023::make_tests!($parser, $task1);
@@ -63,9 +63,9 @@ macro_rules! make_main {
             let input = fileio::read_input(file!());
             let parsed = $parser(input.as_str());
             let res1 = $task1(parsed.clone());
-            println!("!! Task 1 result: <|{res1}|>");
+            println!("!! Task 1 result: >{res1}<");
             let res2 = $task2(parsed);
-            println!("!! Task 2 result: <|{res2}|>");
+            println!("!! Task 2 result: >{res2}<");
         }
 
         aoc2023::make_tests!($parser, $task1, $task2);
