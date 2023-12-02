@@ -8,6 +8,7 @@ use nom::{
     sequence::{delimited, pair},
     IResult,
 };
+use std::cmp;
 
 #[derive(Debug, Clone, Default)]
 struct Draw {
@@ -88,8 +89,21 @@ fn task1(input: Vec<Game>) -> String {
         .to_string()
 }
 
-// fn task2(input: &str) -> String {
-//     input.to_string()
-// }
+fn max_cubes(acc: Draw, draw: &Draw) -> Draw {
+    Draw {
+        red: cmp::max(acc.red, draw.red),
+        green: cmp::max(acc.green, draw.green),
+        blue: cmp::max(acc.blue, draw.blue),
+    }
+}
 
-aoc2023::make_main!(task1, nom_parser: parse);
+fn task2(input: Vec<Game>) -> String {
+    input
+        .iter()
+        .map(|game| game.draws.iter().fold(Draw::default(), max_cubes))
+        .map(|max_draw| max_draw.red * max_draw.green * max_draw.blue)
+        .sum::<i64>()
+        .to_string()
+}
+
+aoc2023::make_main!(task1, task2, nom_parser: parse);
