@@ -16,17 +16,25 @@ struct SymbolTable {
 }
 
 impl SymbolTable {
-    fn is_symbol(&self, row: isize, col: isize) -> bool {
+    fn get_symbol(&self, row: isize, col: isize) -> Option<u8> {
         if row < 0 || col < 0 {
-            false
+            None
         } else {
             let row = row as usize;
             let col = col as usize;
-            self.symbols
-                .get(row)
-                .map(|r| r.get(col).map_or(false, |&b| b != b'.'))
-                .unwrap_or(false)
+            self.symbols.get(row).and_then(|r| {
+                r.get(col)
+                    .and_then(|&b| if b != b'.' { Some(b) } else { None })
+            })
         }
+    }
+
+    fn is_symbol(&self, row: isize, col: isize) -> bool {
+        self.get_symbol(row, col).is_some()
+    }
+
+    fn is_potential_gear(&self, row: isize, col: isize) -> bool {
+        self.get_symbol(row, col).map_or(false, |b| b == b'*')
     }
 }
 
@@ -93,8 +101,7 @@ fn has_adjacent_symbol(number: &Number, symbols: &SymbolTable) -> bool {
         .any(|row| (number.first - 1..=number.last + 1).any(|col| symbols.is_symbol(row, col)))
 }
 
-fn task1(input: &str) -> String {
-    let (numbers, symbols) = parse(input);
+fn task1((numbers, symbols): (Vec<Number>, SymbolTable)) -> String {
     numbers
         .iter()
         .filter(|n| has_adjacent_symbol(n, &symbols))
@@ -103,8 +110,37 @@ fn task1(input: &str) -> String {
         .to_string()
 }
 
-// fn task2(input: &str) -> String {
-//     input.to_string()
-// }
+fn get_potential_adjacent_gears(number: &Number, symbols: &SymbolTable) -> Vec<(isize, isize)> {
+    (number.row - 1..=number.row + 1)
+        .flat_map(|row| {
+            (number.first - 1..=number.last + 1).filter_map(move |col| {
+                if symbols.is_potential_gear(row, col) {
+                    Some((row, col))
+                } else {
+                    None
+                }
+            })
+        })
+        .collect()
+}
 
-aoc2023::make_main!(task1);
+fn task2((numbers, symbols): (Vec<Number>, SymbolTable)) -> String {
+    let mut gears: Vec<(isize, isize, Vec<i64>)> = Vec::new();
+    for number in numbers {
+        for (row, col) in get_potential_adjacent_gears(&number, &symbols) {
+            if let Some(item) = gears.iter_mut().find(|(r, c, _)| *r == row && *c == col) {
+                item.2.push(number.value);
+            } else {
+                gears.push((row, col, vec![number.value]));
+            }
+        }
+    }
+    gears
+        .iter()
+        .filter(|(_, _, values)| values.len() == 2)
+        .map(|(_, _, values)| values.iter().product::<i64>())
+        .sum::<i64>()
+        .to_string()
+}
+
+aoc2023::make_main!(task1, task2, parser:parse);
