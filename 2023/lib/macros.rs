@@ -10,7 +10,7 @@ macro_rules! make_test_cases {
                     let input = fileio::read_test_input(file!(), $idx);
                     let parsed = $parser(input.as_str());
                     let expected_output = fileio::read_test_output(file!(), $idx);
-                    let actual_output = $func_name(parsed).trim().to_string();
+                    let actual_output = $func_name(parsed).to_string();
                     assert_eq!(actual_output, expected_output);
                 }
         }

@@ -101,13 +101,12 @@ fn has_adjacent_symbol(number: &Number, symbols: &SymbolTable) -> bool {
         .any(|row| (number.first - 1..=number.last + 1).any(|col| symbols.is_symbol(row, col)))
 }
 
-fn task1((numbers, symbols): (Vec<Number>, SymbolTable)) -> String {
+fn task1((numbers, symbols): (Vec<Number>, SymbolTable)) -> i64 {
     numbers
         .iter()
         .filter(|n| has_adjacent_symbol(n, &symbols))
         .map(|n| n.value)
         .sum::<i64>()
-        .to_string()
 }
 
 fn get_potential_adjacent_gears(number: &Number, symbols: &SymbolTable) -> Vec<(isize, isize)> {
@@ -124,7 +123,7 @@ fn get_potential_adjacent_gears(number: &Number, symbols: &SymbolTable) -> Vec<(
         .collect()
 }
 
-fn task2((numbers, symbols): (Vec<Number>, SymbolTable)) -> String {
+fn task2((numbers, symbols): (Vec<Number>, SymbolTable)) -> i64 {
     let mut gears: Vec<(isize, isize, Vec<i64>)> = Vec::new();
     for number in numbers {
         for (row, col) in get_potential_adjacent_gears(&number, &symbols) {
@@ -140,7 +139,6 @@ fn task2((numbers, symbols): (Vec<Number>, SymbolTable)) -> String {
         .filter(|(_, _, values)| values.len() == 2)
         .map(|(_, _, values)| values.iter().product::<i64>())
         .sum::<i64>()
-        .to_string()
 }
 
 aoc2023::make_main!(task1, task2, parser:parse);
