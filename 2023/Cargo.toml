@@ -9,6 +9,8 @@ edition = "2021"
 rust-version = "1.73"
 
 [dependencies]
+itertools = "0.12"
+ndarray = "0.15"
 nom = "7.1"
 paste = "1.0"
 regex = "1.10"
@@ -24,3 +26,7 @@ path = "s01/src/s01.rs"
 [[bin]]
 name = "s02"
 path = "s02/src/s02.rs"
+
+[[bin]]
+name = "s03"
+path = "s03/src/s03.rs"
