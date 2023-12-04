@@ -30,3 +30,7 @@ path = "s02/src/s02.rs"
 [[bin]]
 name = "s03"
 path = "s03/src/s03.rs"
+
+[[bin]]
+name = "s04"
+path = "s04/src/s04.rs"
