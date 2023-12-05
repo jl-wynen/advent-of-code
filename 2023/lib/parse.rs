@@ -19,6 +19,10 @@ pub fn decimals(input: &str) -> IResult<&str, Vec<i64>> {
     separated_list0(many1(alt((multispace1, tag(",")))), decimal)(input)
 }
 
+pub fn decimals_line(input: &str) -> IResult<&str, Vec<i64>> {
+    separated_list0(many1(one_of(" \t,")), decimal)(input)
+}
+
 pub fn ws<'a, F: 'a, O, E: ParseError<&'a str>>(
     inner: F,
 ) -> impl FnMut(&'a str) -> IResult<&'a str, O, E>
