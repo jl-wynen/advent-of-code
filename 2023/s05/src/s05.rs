@@ -1,4 +1,5 @@
 use aoc2023::parse::{decimals, decimals_line};
+use itertools::Itertools;
 use nom::{
     bytes::complete::tag,
     character::complete::{newline, none_of},
@@ -6,6 +7,7 @@ use nom::{
     sequence::{preceded, terminated},
     IResult,
 };
+use rayon::prelude::*;
 use std::ops;
 
 #[derive(Clone, Debug, Default)]
@@ -75,10 +77,38 @@ fn task1((seeds, maps): (Vec<i64>, Vec<Map>)) -> i64 {
         .unwrap()
 }
 
-// fn task2((seeds, map): (Vec<i64>, Map)) -> i64 {
-//     dbg!(seeds);
-//     dbg!(map);
-//     0
-// }
+fn pair_iter<It>(it: It) -> impl Iterator<Item = (It::Item, It::Item)>
+where
+    It: Iterator<Item = i64>,
+{
+    it.batching(|it| match it.next() {
+        None => None,
+        Some(x) => match it.next() {
+            None => None,
+            Some(y) => Some((x, y)),
+        },
+    })
+}
 
-aoc2023::make_main!(task1, nom_parser:parse);
+fn task2((seeds, maps): (Vec<i64>, Vec<Map>)) -> i64 {
+    let seeds = pair_iter(seeds.iter().copied())
+        .map(|(start, n)| ops::Range {
+            start,
+            end: start + n,
+        })
+        .collect::<Vec<_>>();
+
+    seeds
+        .par_iter()
+        .map(|seed_range| {
+            seed_range
+                .clone()
+                .map(|seed| find_location(seed, &maps))
+                .min()
+                .unwrap()
+        })
+        .min()
+        .unwrap()
+}
+
+aoc2023::make_main!(task1, task2, nom_parser:parse);
