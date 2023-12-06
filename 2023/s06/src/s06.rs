@@ -12,10 +12,15 @@ fn parse(input: &str) -> (Vec<f64>, Vec<f64>) {
 }
 
 fn winning_range(t: f64, d: f64) -> (i64, i64) {
-    // Fudge factor on d to handle the case where a and b are ints.
-    let a = t / 2.0 + (t * t / 4.0 - d * 1.001).sqrt();
-    let b = t / 2.0 - (t * t / 4.0 - d * 1.001).sqrt();
-    let (low, high) = if a < b { (a, b) } else { (b, a) };
+    let a = t / 2.0 + (t * t / 4.0 - d).sqrt();
+    let b = t / 2.0 - (t * t / 4.0 - d).sqrt();
+    let (mut low, mut high) = if a < b { (a, b) } else { (b, a) };
+    if low.fract() == 0.0 {
+        low += 1.0
+    }
+    if high.fract() == 0.0 {
+        high -= 1.0
+    }
     (low.ceil() as i64, high.floor() as i64)
 }
 
