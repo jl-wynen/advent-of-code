@@ -1,8 +1,8 @@
-fn task1(input: &str) -> String {
+fn task1(input: &str) -> i64 {
     input.to_string()
 }
 
-// fn task2(input: &str) -> String {
+// fn task2(input: &str) -> i64 {
 //     input.to_string()
 // }
 
