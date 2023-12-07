@@ -23,6 +23,41 @@ struct Hand {
     bid: i64,
 }
 
+impl Hand {
+    fn switch_to_jokers(&mut self) {
+        for card in &mut self.cards {
+            if *card == card_value('J') {
+                *card = 1;
+            }
+        }
+
+        self.assign_types_based_on_jokers();
+    }
+
+    fn assign_jokers_to(&mut self, val: u8) {
+        for card in &mut self.cards {
+            if *card == 1 {
+                *card = val;
+            }
+        }
+    }
+
+    fn assign_types_based_on_jokers(&mut self) {
+        let ty = (2..=14)
+            .map(|val| {
+                let old_cards = self.cards;
+                self.assign_jokers_to(val);
+                let ty = get_type(&self.cards);
+                self.cards = old_cards;
+                ty
+            })
+            .max()
+            .unwrap();
+
+        self.ty = ty;
+    }
+}
+
 impl PartialOrd for Hand {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
@@ -36,8 +71,7 @@ impl Ord for Hand {
                 .iter()
                 .zip(other.cards.iter())
                 .map(|(a, b)| a.cmp(b))
-                .filter(|&o| o != Ordering::Equal)
-                .next()
+                .find(|&o| o != Ordering::Equal)
                 .unwrap_or(Ordering::Equal)
         })
     }
@@ -113,19 +147,22 @@ fn parse(input: &str) -> IResult<&str, Vec<Hand>> {
     terminated(separated_list1(newline, parse_hand), newline)(input)
 }
 
-fn task1(mut input: Vec<Hand>) -> i64 {
-    input.sort();
-    input
+fn task1(mut hands: Vec<Hand>) -> i64 {
+    hands.sort();
+    hands
         .iter()
         .enumerate()
         .fold(0, |acc, (i, hand)| acc + (i as i64 + 1) * hand.bid)
 }
 
-// fn task2(input: &str) -> i64 {
-//     input.to_string()
-// }
+fn task2(mut hands: Vec<Hand>) -> i64 {
+    for hand in &mut hands {
+        hand.switch_to_jokers();
+    }
+    task1(hands)
+}
 
-aoc2023::make_main!(task1, nom_parser:parse);
+aoc2023::make_main!(task1, task2, nom_parser:parse);
 
 #[cfg(test)]
 mod tests {
