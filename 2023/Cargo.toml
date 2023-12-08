@@ -47,3 +47,7 @@ path = "s06/src/s06.rs"
 [[bin]]
 name = "s07"
 path = "s07/src/s07.rs"
+
+[[bin]]
+name = "s08"
+path = "s08/src/s08.rs"
