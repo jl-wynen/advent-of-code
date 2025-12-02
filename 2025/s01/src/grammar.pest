@@ -1,0 +1,4 @@
+left = { "L" ~ ASCII_DIGIT+ }
+right= { "R" ~ ASCII_DIGIT+ }
+turn = { (left | right) ~ NEWLINE }
+combination = { SOI ~ turn+ ~ NEWLINE* ~ EOI }

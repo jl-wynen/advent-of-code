@@ -1,0 +1,26 @@
+[package]
+name = "aoc2025"
+version = "1.0.0"
+authors = ["Jan-Lukas Wynen"]
+description = "Advent of code solution for 2025."
+license = "MIT"
+
+edition = "2024"
+rust-version = "1.91"
+
+[dependencies]
+anyhow = "1.0"
+ndarray = "0.17"
+paste = "1.0"
+pest = "2.8"
+pest_derive = "2.8"
+rayon = "1.11"
+regex = "1.12"
+
+[lib]
+name = "aoc2025"
+path = "lib/lib.rs"
+
+[[bin]]
+name = "s01"
+path = "s01/src/s01.rs"
