@@ -69,7 +69,6 @@ fn task2(input: Pairs<Rule>) -> i64 {
         if pos < 0 {
             pos += 100;
         }
-        println!("{turn:?}: {pos} ({new_pos}) -- {zeros}");
     }
     zeros
 }
