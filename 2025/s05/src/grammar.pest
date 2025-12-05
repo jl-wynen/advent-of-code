@@ -1,0 +1,5 @@
+id = { ASCII_DIGIT+ }
+id_range = { id ~ "-" ~ id }
+fresh_ranges = { (id_range ~ "\n")+ }
+available = { (id ~ "\n")+ }
+inventory = { SOI ~ fresh_ranges ~ "\n" ~ available ~ "\n"* ~ EOI }
