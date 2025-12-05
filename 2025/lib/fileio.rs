@@ -27,13 +27,8 @@ fn output_data_dir(exe_file: &str) -> PathBuf {
     source_dir(exe_file).join("../outputs")
 }
 
-pub fn read_test_input(exe_file: &str, part_no: u8) -> String {
-    let path = input_data_dir(exe_file).join(format!("test-input-{part_no}"));
-    let path = if path.exists() {
-        path
-    } else {
-        input_data_dir(exe_file).join("test-input-1")
-    };
+pub fn read_test_input(exe_file: &str) -> String {
+    let path = input_data_dir(exe_file).join("test-input");
     let mut input = fs::read_to_string(path).unwrap().trim_end_matches('\n').to_string();
     // Ensure a single trailing newline to simplify parsing
     input.push('\n');

@@ -8,7 +8,7 @@ macro_rules! make_test_cases {
                     use pest::Parser;
                     use aoc2025::fileio;
 
-                    let input = fileio::read_test_input(file!(), $idx);
+                    let input = fileio::read_test_input(file!());
                     let parsed = <$parser>::parse($rule, input.as_str()).unwrap();
                     let expected_output = fileio::read_test_output(file!(), $idx);
                     let actual_output = $func_name(parsed).to_string();
