@@ -1,0 +1,3 @@
+number = {ASCII_DIGIT+}
+range = { number ~ "-" ~ number }
+ranges = { SOI ~ (range ~ ","?)+ ~ NEWLINE ~ EOI }
