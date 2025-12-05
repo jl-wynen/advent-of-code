@@ -1,0 +1,2 @@
+line = { ("."|"@")+ }
+wall = {SOI ~ (line ~ "\n")+ ~ "\n"* ~ EOI}

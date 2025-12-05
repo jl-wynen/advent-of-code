@@ -10,7 +10,7 @@ rust-version = "1.91"
 
 [dependencies]
 anyhow = "1.0"
-ndarray = "0.17"
+ndarray = { version = "0.17", features = ["rayon"] }
 paste = "1.0"
 pest = "2.8"
 pest_derive = "2.8"
@@ -32,3 +32,7 @@ path = "s02/src/s02.rs"
 [[bin]]
 name = "s03"
 path = "s03/src/s03.rs"
+
+[[bin]]
+name = "s04"
+path = "s04/src/s04.rs"
