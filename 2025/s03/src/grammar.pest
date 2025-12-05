@@ -1,0 +1,3 @@
+battery = { ASCII_DIGIT }
+bank = { battery+ ~ "\n" }
+banks = { SOI ~ bank+ ~ "\n"? ~ EOI }
